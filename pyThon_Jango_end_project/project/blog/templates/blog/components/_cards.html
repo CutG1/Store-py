@@ -1,0 +1,23 @@
+<div class="col">
+    <div class="card mb-2">
+        <div class="card-header bg-dark text-white d-flex justify-content-between">
+            <div>
+                Category: {{ article.category }}
+            </div>
+            <div> Views: {{ article.views }}</div>
+        </div>
+        <a href="{% url 'article' article.pk %}">
+            <img style="max-height: 500px; object-fit: cover; object-position: center;" src="{{ article.get_photo }}"
+                 class="card-img-top" alt="...">
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text">{{ article.content|truncatewords:20 }}</p>
+        </div>
+        <div class="card-footer bg-dark text-white">
+            <div class="div">
+                Data public: {{ article.created_at }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container pt-5 pb-5">
+    <div class="col-md-8 offset-md-2">
+        <form enctype="multipart/form-data" action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                {% if 'update' in request.path %}
+                Update Movie
+                {% else %}
+                Add Movie
+                {% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock main %}

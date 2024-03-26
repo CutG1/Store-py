@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock title %}
+
+{% block main %}
+
+
+<div class="container">
+    <div class="row">
+        <h3 class="text-center">{{ title }}</h3>
+        <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Log In</button>
+                <p class="small fw-bold text-light mt-2 pt-1 mb-0">No user!</p>
+                <a href="{% url 'register' %}" class="navbar-brand goReg" style="">Go Registration? -></a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

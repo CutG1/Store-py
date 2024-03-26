@@ -1,0 +1,45 @@
+from django.db import models
+from django.urls import reverse
+
+class Category(models.Model):
+    title = models.CharField(max_length=200,
+                             unique=True,
+                             verbose_name='Name category')
+
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'category_id': self.pk})
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200,
+                             unique=True,
+                             verbose_name='Name movie')
+    content = models.TextField(verbose_name='About movie')
+    photo = models.ImageField(upload_to='photo/', blank=True, null=True, verbose_name='Photo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Create date')
+    update_at = models.DateTimeField(auto_now=True, verbose_name='Update date')
+    publish = models.BooleanField(default=True, verbose_name='Status public')
+    views = models.IntegerField(default=0, verbose_name='Views')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category movie')
+    video = models.CharField(max_length=500, verbose_name='Link video', blank=True, null=True)
+
+
+    def get_photo(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return 'data:image/jpeg;base64,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S1E8Zp3lzLt9oA5ZWtuA7WxvwPRRTZ7eTUUVNFSNp2PEWZozF4cS9znWIH6x0VgY1PLiOBTyGF0Mj4i7w7lx+6eHXboCQWtuBb5qHqk7rMb+elJ0jZYGQVsdxlnLWu1sHxhjwD5h3rYqTYpVS7Q4iBGDFGyEkA6+GyNmeQmx1JfcDzapHu/2Y+2YNUQTAxiWcyQvtq1zGNa2QA8RfMO4JUp2L2MGH088edssswcC8NsALEMYL6kXJPr2UvNcN5j+e0I3FD+kVn+5b/1hfl3l1D8QxeOihufDLYGjlncbyP8AS4B7MXobmKWWF+JSGNwLIg2xaR940l+Tz9kfMdV5OxWxMmKfaKipfLA0uNn5LmSRxJf7xFwL6nqfNEx1TSKQ420w0YNiVLPTaMyxvYL31jsyRpv1Auf1yrvpahssbJYzmY9oe09WuFwfkVUm0W6cwU0ktNNLUyMsRH4TW3b8ZFnG5A1t2U23YRTMwunbO1zHAvyhwIdkLiW3B1HE27WRfx+qmSazGto1vrxySNkFHGSwStL5SNMzQbNZ+rcEkeSqF1leG9bZOSuiinpxnlhDgWDi9jtfZ6uBHDnmKp2DAqqSTwo6edz+Bb4Trg9xb2fXoUZ+RFu5O1z7o8bfVULo5TmdTvDA48Sxwuy55kZXDyAU4UU3b7NPw6kLJsviyPzvAN8osA1ubmRr81K0dDjxaKRsRERcIiICIiAiIgIiICIiDkuJ4lcIiGhLoiACiIgJdEQ0IiICIiAiIgJdEQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH//2Q=='
+
+    class Meta:
+        verbose_name = 'Movie'
+        verbose_name_plural = 'Movies'
+
+    def __str__(self):
+        return self.title
